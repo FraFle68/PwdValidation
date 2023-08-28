@@ -1,7 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Bitte das zu validiernede Passwort eingeben:");
         String password = scanner.next();
@@ -61,9 +63,24 @@ public class Main {
         return false;
     }
 
-    public static boolean TestBlacklist(String pwd) {
-        File blacklist = new File("Blacklist")
-        return false;
+    public static boolean TestBlacklist(String pwd) throws FileNotFoundException {
+        try {
+            File blacklist = new File("Blacklist");
+            Scanner testFileReader = new Scanner(blacklist);
+            while (testFileReader.hasNextLine()) {
+                if (pwd.equals(testFileReader.nextLine())) {
+                    testFileReader.close();
+                    System.out.println("Das Password ist zu einfach und steht auf der Blacklist !!!");
+                    return false;
+                }
+            }
+            testFileReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Blacklist not found !!!");
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
 }
