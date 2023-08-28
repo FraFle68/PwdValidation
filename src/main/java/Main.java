@@ -5,9 +5,9 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Bitte das zu validiernede Passwort eingeben:");
+        System.out.println("Bitte das zu validierende Passwort eingeben:");
         String password = scanner.next();
-        int minLength = 8;
+        int minLength = 4;
 
         //Validate length
         boolean correctLength = TestLength(password, minLength);
@@ -32,8 +32,7 @@ public class Main {
 
     public static boolean TestDigits(String pwd) {
         for(int i = 0; i < pwd.length(); i++) {
-            if(pwd.charAt(i) > 47 && pwd.charAt(i) < 58) {
-            //if(Character.isDigit(pwd.charAt(i)))  {
+            if(Character.isDigit(pwd.charAt(i)))  {
                 return true;
             }
         }
@@ -68,7 +67,7 @@ public class Main {
             File blacklist = new File("Blacklist");
             Scanner testFileReader = new Scanner(blacklist);
             while (testFileReader.hasNextLine()) {
-                if (pwd.equals(testFileReader.nextLine())) {
+                if (pwd.toLowerCase().equals(testFileReader.nextLine())) {
                     testFileReader.close();
                     System.out.println("Das Password ist zu einfach und steht auf der Blacklist !!!");
                     return false;
@@ -79,7 +78,6 @@ public class Main {
             System.out.println("Blacklist not found !!!");
             e.printStackTrace();
         }
-
         return true;
     }
 
